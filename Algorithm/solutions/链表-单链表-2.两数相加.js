@@ -1,0 +1,59 @@
+/*
+ * @Autor: Guo Kainan
+ * @Date: 2021-08-27 13:32:52
+ * @LastEditors: Guo Kainan
+ * @LastEditTime: 2021-08-27 15:16:47
+ * @Description: 
+ */
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+ var addTwoNumbers = function(l1, l2) {
+  let curPointer = null
+  let headPointer = null
+  // 进位数
+  let advancedNum = 0
+  while (l1 !== null || l2 !== null) {
+      // 当前位置的两个加数
+      let a = 0, b = 0
+      if (l1 !== null) {
+          a = l1.val
+          l1 = l1.next
+      }
+      if (l2 !== null) {
+          b = l2.val
+          l2 = l2.next
+      }
+      // 求当前位的和
+      const tempSum = a + b + advancedNum
+      // 提取尾数
+      const num = tempSum % 10
+      // 获取下一位的进位
+      advancedNum = Math.floor(tempSum / 10)
+      // 尾数创建节点
+      const newPointer = new ListNode(num)
+      if (curPointer !== null) {
+          curPointer.next = newPointer
+      }
+      else {
+          headPointer = newPointer
+      }
+      curPointer = newPointer
+  }
+
+  // 处理最后的进位
+  if (advancedNum > 0) {
+      curPointer.next = new ListNode(advancedNum)
+  }
+  
+  return headPointer
+}
